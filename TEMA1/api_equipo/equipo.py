@@ -16,6 +16,19 @@ equipo_list = [Equipo(id=1 ,nombre="Equipo1", ciudad="Sevilla", año_fundacion="
               Equipo(id=3 ,nombre="Equipo3", ciudad="Málaga", año_fundacion="2000", estadio="Estadio55")]
 
 
+#método para buscar equipos
+def buscar_equipos(id: int):
+    equipos = [equipo for equipo in equipo_list if equipo.id == id]
+
+    if equipos:
+        return equipos[0]
+    raise HTTPException(status_code=404, detail="Equipo no encontrado")
+
+#método para indicar el siguiente id
+def siguiente_id():
+    #devuelve el usuario con la id máxima y a este le suma 1 a su id
+    return max(equipo_list, key=lambda x: x.id).id + 1
+
 #devuelve todos los equipos
 @app.get("/equipos")
 def equipos():
@@ -23,9 +36,7 @@ def equipos():
 
 @app.get("/equipos/{id_equipo}")
 def get_equipo(id_equipo: int):
-    equipos = [equipo for equipo in equipo_list if equipo.id == id_equipo]
-
-    return equipos[0] if equipos else {"Error" : "User not found"}
+    return buscar_equipos(id_equipo)
 
 #método post para añadirlo a la lista
 @app.post("/equipos", status_code=201, response_model=Equipo)
@@ -73,17 +84,3 @@ def eliminar_equipo(id: int):
     
     #si no se encuentra el id del equipo a eliminar lanza una excepcion
     raise HTTPException(status_code=404, detail="Equipo no encontrado")
-
-
-#método para buscar equipos
-def buscar_equipos(id: int):
-    equipos = [equipo for equipo in equipo_list if equipo.id == id]
-
-    if equipos:
-        return equipos[0]
-    raise HTTPException(status_code=404, detail="Equipo no encontrado")
-
-#método para indicar el siguiente id
-def siguiente_id():
-    #devuelve el usuario con la id máxima y a este le suma 1 a su id
-    return (max(equipo_list, key=id).id+1)
