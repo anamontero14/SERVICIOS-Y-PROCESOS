@@ -1,7 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-app = FastAPI()
+router = APIRouter(prefix="/equipo", tags= ["equipos"])
 
 #entidad user
 class Equipo(BaseModel):
@@ -30,16 +30,16 @@ def siguiente_id():
     return max(equipo_list, key=lambda x: x.id).id + 1
 
 #devuelve todos los equipos
-@app.get("/equipos")
+@router.get("/")
 def equipos():
     return equipo_list
 
-@app.get("/equipos/{id_equipo}")
+@router.get("/{id_equipo}")
 def get_equipo(id_equipo: int):
     return buscar_equipos(id_equipo)
 
 #método post para añadirlo a la lista
-@app.post("/equipos", status_code=201, response_model=Equipo)
+@router.post("/", status_code=201, response_model=Equipo)
 #recibe un equipo de tipo equipo para meterlo a la lista
 def add_equipo(equipo: Equipo):
     #al equipo pasado por parámetro se le asigna el siguiente id
@@ -50,7 +50,7 @@ def add_equipo(equipo: Equipo):
     return equipo
 
 #método put para actualizar un usuario concreto
-@app.put("/equipos/{id}", response_model=Equipo)
+@router.put("/{id}", response_model=Equipo)
 #se le pasará el id que tiene el equipo y sus datos a actualizar
 def modificar_equipo(id: int, equipo: Equipo):
     #for para que devuelva el índice y el usuario
@@ -70,7 +70,7 @@ def modificar_equipo(id: int, equipo: Equipo):
     raise HTTPException(status_code=404, detail="Equipo no encontrado")
 
 #método delete para poder eliminar a un equipo de la lista
-@app.delete("/equipos/{id}")
+@router.delete("/{id}")
 #se le pasa el id del equipo a eliminar
 def eliminar_equipo(id: int):
     #se recorre la lista de los equipos

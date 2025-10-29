@@ -1,7 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-app = FastAPI()
+router = APIRouter(prefix="/jugadores", tags= ["jugadores"])
 
 class Jugador(BaseModel):
     id: int
@@ -39,18 +39,22 @@ def siguiente_id():
     return (max(jugadores_list, key=id).id+1)
 
 #devuelve todos los jugadores
-@app.get("/jugadores")
+@router.get("/")
 def jugadores ():
     return jugadores_list
 
+@router.get("/query/")
+def jugadores (id: int):
+    return buscar_jugador(id)
+
 #devuelve el jugador con el id correspondiente
-@app.get("/jugadores/{id_jugador}")
+@router.get("/{id_jugador}")
 #el nombre del parámetro y el nombre del {} tiene que ser el MISMO
 def jugador_id(id_jugador: int):
     return buscar_jugador(id_jugador)
 
 #añade un nuevo jugador a la lista
-@app.post("/jugadores", status_code=201, response_model=Jugador)
+@router.post("/", status_code=201, response_model=Jugador)
 def nuevo_jugador(jugador: Jugador):
     #se le cambia el id que llega por el siguiente que corresponde
     jugador.id = siguiente_id()
@@ -62,7 +66,7 @@ def nuevo_jugador(jugador: Jugador):
     return jugador
 
 #actualiza los datos de un jugador existente
-@app.put("/jugadores/{id}", response_model=Jugador)
+@router.put("/{id}", response_model=Jugador)
 def modificar_jugador(id: int, jugador: Jugador):
     #for para que devuelva el índice y el usuario
     for index, jugador_guardado in enumerate(jugadores_list):
@@ -81,7 +85,7 @@ def modificar_jugador(id: int, jugador: Jugador):
     raise HTTPException(status_code=404, detail="Jugador no encontrado")
 
 #método delete para poder eliminar a un jugador de la lista
-@app.delete("/jugadores/{id}")
+@router.delete("/{id}")
 #se le pasa el id del jugador a eliminar
 def eliminar_jugador(id: int):
     #se recorre la lista de los jugadores
