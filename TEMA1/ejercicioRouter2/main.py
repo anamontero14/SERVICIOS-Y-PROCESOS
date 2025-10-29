@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import equipo, jugador
+from routers import cliente, producto
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()

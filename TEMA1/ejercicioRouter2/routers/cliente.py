@@ -12,15 +12,16 @@ class Cliente(BaseModel):
 
 #listado de los clientes
 clientes_list = [
-    Cliente(1, "Juan", "Pérez Martínez", 344115423, "juan@email.com"),
-    Cliente(2, "María", "González Ruiz", 611223344, "maria.gonzalez@example.com"),
-    Cliente(3, "Luis", "Fernández López", 655998877, "luis.fernandez@example.com"),
-    Cliente(4, "Ana", "Sánchez Ortega", 622334455, "ana.sanchez@example.com"),
-    Cliente(5, "Carlos", "Muñoz Pérez", 633445566, "carlos.munoz@example.com"),
-    Cliente(6, "Lucía", "Ramírez Soto", 600112233, "lucia.ramirez@example.com"),
-    Cliente(7, "Pablo", "Vázquez Romero", 644556677, "pablo.vazquez@example.com"),
-    Cliente(8, "Elena", "Torres Hidalgo", 699887766, "elena.torres@example.com")
+    Cliente(id=1, nombre="Juan", apellidos="Pérez Martínez", telefono=344115423, email="juan@email.com"),
+    Cliente(id=2, nombre="María", apellidos="González Ruiz", telefono=611223344, email="maria.gonzalez@example.com"),
+    Cliente(id=3, nombre="Luis", apellidos="Fernández López", telefono=655998877, email="luis.fernandez@example.com"),
+    Cliente(id=4, nombre="Ana", apellidos="Sánchez Ortega", telefono=622334455, email="ana.sanchez@example.com"),
+    Cliente(id=5, nombre="Carlos", apellidos="Muñoz Pérez", telefono=633445566, email="carlos.munoz@example.com"),
+    Cliente(id=6, nombre="Lucía", apellidos="Ramírez Soto", telefono=600112233, email="lucia.ramirez@example.com"),
+    Cliente(id=7, nombre="Pablo", apellidos="Vázquez Romero", telefono=644556677, email="pablo.vazquez@example.com"),
+    Cliente(id=8, nombre="Elena", apellidos="Torres Hidalgo", telefono=699887766, email="elena.torres@example.com")
 ]
+
 
 #funcion para encontrar un cliente por id
 def buscar_cliente(id: int):

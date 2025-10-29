@@ -10,16 +10,16 @@ class Producto(BaseModel):
     precio: float
     idCliente: int
 
-#lista de todos los productos
+# lista de todos los productos
 producto_list = [
-    Producto(id=1, nombre="Tomate enlatado", descripcion="Tomate frito enlatado", precio=3.45, id_cliente=1),
-    Producto(id=2, nombre="Aceite de oliva 500ml", descripcion="Aceite de oliva virgen extra", precio=6.99, id_cliente=2),
-    Producto(id=3, nombre="Arroz 1kg", descripcion="Arroz largo tipo bomba", precio=1.85, id_cliente=3),
-    Producto(id=4, nombre="Pasta integral 500g", descripcion="Pasta de trigo integral", precio=2.10, id_cliente=4),
-    Producto(id=5, nombre="Leche entera 1L", descripcion="Leche fresca entera", precio=0.95, id_cliente=5),
-    Producto(id=6, nombre="Azúcar 1kg", descripcion="Azúcar blanco refinado", precio=1.20, id_cliente=6),
-    Producto(id=7, nombre="Café molido 250g", descripcion="Café 100% arábica molido", precio=4.50, id_cliente=7),
-    Producto(id=8, nombre="Galletas integrales 300g", descripcion="Galletas integrales con avena", precio=2.75, id_cliente=8)
+    Producto(id=1, nombre="Tomate enlatado", descripcion="Tomate frito enlatado", precio=3.45, idCliente=1),
+    Producto(id=2, nombre="Aceite de oliva 500ml", descripcion="Aceite de oliva virgen extra", precio=6.99, idCliente=2),
+    Producto(id=3, nombre="Arroz 1kg", descripcion="Arroz largo tipo bomba", precio=1.85, idCliente=3),
+    Producto(id=4, nombre="Pasta integral 500g", descripcion="Pasta de trigo integral", precio=2.10, idCliente=4),
+    Producto(id=5, nombre="Leche entera 1L", descripcion="Leche fresca entera", precio=0.95, idCliente=5),
+    Producto(id=6, nombre="Azúcar 1kg", descripcion="Azúcar blanco refinado", precio=1.20, idCliente=6),
+    Producto(id=7, nombre="Café molido 250g", descripcion="Café 100% arábica molido", precio=4.50, idCliente=7),
+    Producto(id=8, nombre="Galletas integrales 300g", descripcion="Galletas integrales con avena", precio=2.75, idCliente=8)
 ]
 
 #buscar un producto
