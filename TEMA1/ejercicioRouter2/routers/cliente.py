@@ -49,9 +49,12 @@ def clientes():
     return clientes_list
 
 #método para devolver un cliente en específico dependiendo de un atributo
-@router.get("/query/")
-def clientes(id: int):
-    return buscar_cliente(id)
+@router.get("")
+def cliente_atributo(id: int):
+    cliente = buscar_cliente(id)
+    if cliente:
+        return cliente
+    raise HTTPException(status_code=404, detail="Cliente no encontrado")
 
 #método para devolver un cliente con un id específico
 @router.get("/{id_cliente}")

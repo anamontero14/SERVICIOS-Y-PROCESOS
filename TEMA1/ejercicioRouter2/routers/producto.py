@@ -53,9 +53,12 @@ def productos():
     return producto_list
 
 #método para obtener un producto con un id especifico y un atributo específico
-@router.get("/query/")
+@router.get("")
 def producto_atributo(id: int):
-    return buscar_producto(id)
+    producto = buscar_producto(id)
+    if producto:
+        return producto
+    raise HTTPException(status_code=404, detail="Producto no encontrado")
 
 #método para buscar un producto con un id especifico
 @router.get("/{id_producto}")
