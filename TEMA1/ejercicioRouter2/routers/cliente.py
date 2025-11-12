@@ -1,5 +1,6 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
+from auth_users import authentication
 
 router = APIRouter(prefix="/clientes", tags= ["clientes"])
 
@@ -63,7 +64,9 @@ def cliente_id(id_cliente: int):
 
 #método post para añadir un nuevo cliente a la lista
 @router.post("/", status_code= 201, response_model=Cliente)
-def añadir_cliente(cliente: Cliente):
+#para que no todo el mundo tenga acceso a la api creamos el auth_users y ahora tenemos que
+#indicar que esté autenticado para que pueda hacer el post
+def añadir_cliente(cliente: Cliente, authorized = Depends(authentication)):
     #se le cambia el id que le llegue por el siguiente id de la lista
     cliente.id = next_id()
     #se añade a la lista de los clientes
