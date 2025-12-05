@@ -1,7 +1,6 @@
 from datetime import *
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
-
 import jwt
 from jwt import PyJWTError
 from jwt.exceptions import InvalidTokenError
@@ -86,7 +85,7 @@ async def login(form: OAuth2PasswordRequestForm = Depends()):
             raise HTTPException(status_code = 400, detail = "Error al verificar contraseña")
     raise HTTPException(status_code = 401, detail = "Usuario o password incorrectos")
 
-"""lo que pretende esta funcion es devolvernos al usuario a traves del token"""
+#lo que pretende esta funcion es devolvernos al usuario a traves del token
 async def authentication(token: str = Depends(oauth2)):
     try:
         #sub porque es el campo en el que almaceno el campo del usuario para ver si existe en
