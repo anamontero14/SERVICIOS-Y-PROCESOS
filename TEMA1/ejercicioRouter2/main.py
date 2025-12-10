@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 
 # Routers
-app.include_router(cliente.router)
+#app.include_router(cliente.router)
 app.include_router(producto.router)
 app.include_router(auth_users.router)
 app.include_router(cliente_db.router)

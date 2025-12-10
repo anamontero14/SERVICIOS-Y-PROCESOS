@@ -46,13 +46,13 @@ def next_id():
 
 #método get para devolver todos los clientes
 @router.get("/")
-def clientes():
+async def clientes():
     #el método find() sin parámetros devuelve todos los registros de la BBDD
     return clientes_schema(db_client.local.clientes.find())
 
 #método para devolver un cliente en específico dependiendo de un atributo
 @router.get("")
-def cliente_atributo(id: int):
+async def cliente_atributo(id: int):
     cliente = buscar_cliente(id)
     if cliente:
         return cliente
@@ -60,14 +60,14 @@ def cliente_atributo(id: int):
 
 #método para devolver un cliente con un id específico
 @router.get("/{id_cliente}", response_model=Cliente)
-def cliente_id(id_cliente: str):
+async def cliente_id(id_cliente: str):
     return buscar_cliente_id(id_cliente)
 
 #método post para añadir un nuevo cliente a la lista
 @router.post("/", status_code= 201, response_model=Cliente)
 #para que no todo el mundo tenga acceso a la api creamos el auth_users y ahora tenemos que
 #indicar que esté autenticado para que pueda hacer el post
-async def añadir_cliente(cliente: Cliente, authorized = Depends(authentication)):
+async def añadir_cliente(cliente: Cliente):
     
     if type(buscar_cliente(cliente.nombre, cliente.apellidos)) == Cliente:
         raise HTTPException(status_code=409, detail = "El cliente ya existe")

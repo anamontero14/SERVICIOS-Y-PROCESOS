@@ -2,7 +2,7 @@ def cliente_schema(cliente) -> dict:
     #el id en la BBDD es _id
     return {"id" : str(cliente["_id"]),
             "nombre": cliente["nombre"],
-            "apellidos": cliente["apellido"],
+            "apellidos": cliente["apellidos"],
             "telefono": cliente["telefono"],
             "email": cliente["email"]
             }
