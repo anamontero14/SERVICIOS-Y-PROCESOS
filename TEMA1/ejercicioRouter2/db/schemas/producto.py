@@ -7,5 +7,5 @@ def producto_schema(producto) -> dict:
             "idCliente": producto["idCliente"]
             }
 
-def producto_schema(productos) -> list:
+def productos_schema(productos) -> list:
     return [producto_schema(producto) for producto in productos]
