@@ -96,7 +96,7 @@ async def modificar_cliente(id_cliente: str, cliente_nuevo: Cliente):
     try:
         #buscamos el id en la BBDD y le pasamos el diccionario con los datos
         #a modificar del usuario
-        db_client.local.clientes.find_one_and_replace({"_id":ObjectId(id)}, cliente_dict)
+        db_client.local.clientes.find_one_and_replace({"_id":ObjectId(id_cliente)}, cliente_dict)
         #buscamos el objeto en BBDD y lo retornamos, así comprobamos que efectivamente
         #se ha modificado
         return buscar_cliente_id(id_cliente)
@@ -107,7 +107,7 @@ async def modificar_cliente(id_cliente: str, cliente_nuevo: Cliente):
 #método para eliminar un cliente
 @router.delete("/{id_cliente}", response_model=Cliente)
 async def eliminar_cliente(id_cliente: str):
-    found = db_client.local.clientes.find_one_and_delete({"_id":ObjectId(id)})
+    found = db_client.local.clientes.find_one_and_delete({"_id":ObjectId(id_cliente)})
     
     if not found:
         #si no se encuentra el id se elimina de la excepcion
