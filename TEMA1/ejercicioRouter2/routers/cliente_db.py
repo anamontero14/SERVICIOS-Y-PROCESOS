@@ -16,7 +16,7 @@ def buscar_cliente(nombre: str, apellidos: str):
     #convertirlo a un objeto Cliente
     try:
         #si algo va mal en la búsqueda dentro de la BBDD se lanzará una excepción, así que la controlamos
-        cliente = cliente_schema(db_client.local.clientes.find_one({"nombre":nombre, "apellidos":apellidos}))
+        cliente = cliente_schema(db_client.Prueba.clientes.find_one({"nombre":nombre, "apellidos":apellidos}))
         return Cliente(**cliente)
     except:
         return {"Error": "Cliente no encontrado"}
@@ -27,7 +27,7 @@ def buscar_cliente_id(id: str):
     #convertirlo a un objeto Cliente
     try:
         #si algo va mal en la búsqueda dentro de la BBDD se lanzará una excepción, así que la controlamos
-        cliente = cliente_schema(db_client.local.clientes.find_one({"_id": ObjectId(id)}))
+        cliente = cliente_schema(db_client.Prueba.clientes.find_one({"_id": ObjectId(id)}))
         return Cliente(**cliente)
     except:
         return {"Error": "Cliente no encontrado"}
@@ -48,7 +48,7 @@ def next_id():
 @router.get("/")
 async def clientes():
     #el método find() sin parámetros devuelve todos los registros de la BBDD
-    return clientes_schema(db_client.local.clientes.find())
+    return clientes_schema(db_client.Prueba.clientes.find())
 
 #método para devolver un cliente en específico dependiendo de un atributo
 @router.get("")
@@ -78,7 +78,7 @@ async def añadir_cliente(cliente: Cliente):
     del cliente_dict["id"]
     #añadimos el usuario a nuestra BBDD
     #obtenemos con inserted_id el id que la BBDD ha generado para nuestro usuario
-    id = db_client.local.clientes.insert_one(cliente_dict).inserted_id
+    id = db_client.Prueba.clientes.insert_one(cliente_dict).inserted_id
     #añadimos el campo id a nuestro diccionario. hay que hacerle un cast
     #a string puesto que el id en BBDD se almacena como un objeto, no como un string
     cliente_dict["id"] = str(id)
@@ -96,7 +96,7 @@ async def modificar_cliente(id_cliente: str, cliente_nuevo: Cliente):
     try:
         #buscamos el id en la BBDD y le pasamos el diccionario con los datos
         #a modificar del usuario
-        db_client.local.clientes.find_one_and_replace({"_id":ObjectId(id_cliente)}, cliente_dict)
+        db_client.Prueba.clientes.find_one_and_replace({"_id":ObjectId(id_cliente)}, cliente_dict)
         #buscamos el objeto en BBDD y lo retornamos, así comprobamos que efectivamente
         #se ha modificado
         return buscar_cliente_id(id_cliente)
@@ -107,7 +107,7 @@ async def modificar_cliente(id_cliente: str, cliente_nuevo: Cliente):
 #método para eliminar un cliente
 @router.delete("/{id_cliente}", response_model=Cliente)
 async def eliminar_cliente(id_cliente: str):
-    found = db_client.local.clientes.find_one_and_delete({"_id":ObjectId(id_cliente)})
+    found = db_client.Prueba.clientes.find_one_and_delete({"_id":ObjectId(id_cliente)})
     
     if not found:
         #si no se encuentra el id se elimina de la excepcion

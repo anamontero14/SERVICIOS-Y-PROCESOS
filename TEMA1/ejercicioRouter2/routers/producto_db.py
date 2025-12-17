@@ -15,7 +15,7 @@ def buscar_producto(nombre: str, descripcion: str):
     #convertirlo a un objeto producto
     try:
         #si algo va mal en la búsqueda dentro de la BBDD se lanzará una excepción, así que la controlamos
-        producto = producto_schema(db_client.local.productos.find_one({"nombre":nombre, "descripcion":descripcion}))
+        producto = producto_schema(db_client.Prueba.productos.find_one({"nombre":nombre, "descripcion":descripcion}))
         return Producto(**producto)
     except:
         return {"Error": "producto no encontrado"}
@@ -26,7 +26,7 @@ def buscar_producto_id(id: str):
     #convertirlo a un objeto producto
     try:
         #si algo va mal en la búsqueda dentro de la BBDD se lanzará una excepción, así que la controlamos
-        producto = producto_schema(db_client.local.productos.find_one({"_id": ObjectId(id)}))
+        producto = producto_schema(db_client.Prueba.productos.find_one({"_id": ObjectId(id)}))
         return Producto(**producto)
     except:
         return {"Error": "producto no encontrado"}
@@ -47,7 +47,7 @@ def next_id():
 @router.get("/")
 async def productos():
     #el método find() sin parámetros devuelve todos los registros de la BBDD
-    return productos_schema(db_client.local.productos.find())
+    return productos_schema(db_client.Prueba.productos.find())
 
 #método para devolver un producto en específico dependiendo de un atributo
 @router.get("")
@@ -77,7 +77,7 @@ async def añadir_producto(producto: Producto):
     del producto_dict["id"]
     #añadimos el usuario a nuestra BBDD
     #obtenemos con inserted_id el id que la BBDD ha generado para nuestro usuario
-    id = db_client.local.productos.insert_one(producto_dict).inserted_id
+    id = db_client.Prueba.productos.insert_one(producto_dict).inserted_id
     #añadimos el campo id a nuestro diccionario. hay que hacerle un cast
     #a string puesto que el id en BBDD se almacena como un objeto, no como un string
     producto_dict["id"] = str(id)
@@ -95,7 +95,7 @@ async def modificar_producto(id_producto: str, producto_nuevo: Producto):
     try:
         #buscamos el id en la BBDD y le pasamos el diccionario con los datos
         #a modificar del usuario
-        db_client.local.productos.find_one_and_replace({"_id":ObjectId(id_producto)}, producto_dict)
+        db_client.Prueba.productos.find_one_and_replace({"_id":ObjectId(id_producto)}, producto_dict)
         #buscamos el objeto en BBDD y lo retornamos, así comprobamos que efectivamente
         #se ha modificado
         return buscar_producto_id(id_producto)
@@ -106,7 +106,7 @@ async def modificar_producto(id_producto: str, producto_nuevo: Producto):
 #método para eliminar un producto
 @router.delete("/{id_producto}", response_model=Producto)
 async def eliminar_producto(id_producto: str):
-    found = db_client.local.productos.find_one_and_delete({"_id":ObjectId(id_producto)})
+    found = db_client.Prueba.productos.find_one_and_delete({"_id":ObjectId(id_producto)})
     
     if not found:
         #si no se encuentra el id se elimina de la excepcion
