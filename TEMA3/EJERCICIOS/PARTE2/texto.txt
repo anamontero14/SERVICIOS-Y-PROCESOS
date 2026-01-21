@@ -1,0 +1,5 @@
+Este es un fichero de ejemplo para contar vocales.
+La programacion de servicios y procesos es muy interesante.
+Aqui se estudian muchos conceptos importantes.
+Las vocales son letras fundamentales en el idioma español.
+Aprender a programar con Python es divertido y educativo.
