@@ -19,7 +19,7 @@ Main:
 """
 
 #función que lee el fichero de películas y filtra por año
-def filtrar_peliculas(ruta_fichero, anio, conexion):
+def filtrar_peliculas(ruta_fichero, año, conexion):
     #se abre el fichero en modo lectura
     with open(ruta_fichero, 'r', encoding='utf-8') as f:
         #se hace un for para leer todas las líneas del fichero
@@ -33,20 +33,20 @@ def filtrar_peliculas(ruta_fichero, anio, conexion):
                 #se obtiene el nombre de la película
                 nombre_pelicula = datos[0]
                 #se obtiene el año de la película
-                anio_pelicula = int(datos[1])
+                año_pelicula = int(datos[1])
                 #si el año de la película coincide con el año buscado
-                if anio_pelicula == anio:
+                if año_pelicula == año:
                     #se envía la película por la tubería
-                    conexion.send((nombre_pelicula, anio_pelicula))
+                    conexion.send((nombre_pelicula, año_pelicula))
     #se envía None para indicar que ha terminado
     conexion.send(None)
     #se cierra la conexión
     conexion.close()
 
 #función que recibe las películas y las guarda en un fichero
-def guardar_peliculas(conexion, anio):
+def guardar_peliculas(conexion, año):
     #se crea el nombre del fichero con el año
-    nombre_fichero = f"peliculas{anio}.txt"
+    nombre_fichero = rf"C:\Users\ana.montero\Documents\GitHub\SERVICIOS-Y-PROCESOS\TEMA3\EJERCICIOS\PARTE2\peliculas{año}.txt"
     #se abre el fichero en modo escritura
     with open(nombre_fichero, 'w', encoding='utf-8') as f:
         #variable auxiliar para salir del bucle
@@ -60,11 +60,11 @@ def guardar_peliculas(conexion, anio):
                 salir = False
             else:
                 #se obtiene el nombre y el año de la película
-                nombre, anio_pelicula = dato
+                nombre, año_pelicula = dato
                 #se escribe la película en el fichero
-                f.write(f"{nombre};{anio_pelicula}\n")
+                f.write(f"{nombre};{año_pelicula}\n")
                 #se imprime el mensaje
-                print(f"Película guardada: {nombre} ({anio_pelicula})")
+                print(f"Película guardada: {nombre} ({año_pelicula})")
     #se cierra la conexión
     conexion.close()
     #se imprime el mensaje final
@@ -72,9 +72,9 @@ def guardar_peliculas(conexion, anio):
 
 if __name__ == '__main__':
     #se pide al usuario que introduzca un año
-    anio = int(input("Introduce un año (menor al actual): "))
-    #se pide al usuario la ruta al fichero de películas
-    ruta_fichero = input("Introduce la ruta al fichero de películas: ")
+    año = int(input("Introduce un año (menor al actual): "))
+    #ruta del fichero de películas
+    ruta_fichero = r"C:\Users\ana.montero\Documents\GitHub\SERVICIOS-Y-PROCESOS\TEMA3\EJERCICIOS\PARTE2\peliculas.txt"
     
     #se mide el tiempo que tardan en ejecutarse los procesos
     inicio = time.perf_counter()
@@ -83,8 +83,8 @@ if __name__ == '__main__':
     conn_padre, conn_hijo = Pipe()
     
     #se crean los dos procesos
-    p1 = Process(target=filtrar_peliculas, args=(ruta_fichero, anio, conn_hijo))
-    p2 = Process(target=guardar_peliculas, args=(conn_padre, anio))
+    p1 = Process(target=filtrar_peliculas, args=(ruta_fichero, año, conn_hijo))
+    p2 = Process(target=guardar_peliculas, args=(conn_padre, año))
     
     #se inician los procesos
     p1.start()

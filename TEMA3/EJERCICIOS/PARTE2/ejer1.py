@@ -13,7 +13,7 @@ def contar_vocal(vocal):
     #variable que almacena el contador de veces que aparece
     contador = 0
     #se abre el fichero en modo lectura
-    with open("texto.txt", "r", encoding="utf-8") as f:
+    with open(r"C:\Users\ana.montero\Documents\GitHub\SERVICIOS-Y-PROCESOS\TEMA3\EJERCICIOS\PARTE2\texto.txt", "r", encoding="utf-8") as f:
         #se hace un for para leer todas las líneas del fichero
         for linea in f:
             #se hace otro for para recorrer cada caracter de la línea
